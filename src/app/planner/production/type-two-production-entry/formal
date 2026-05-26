@@ -1,0 +1,56 @@
+function packCylindersInCarton(cylinders, cartonWidth, cartonHeight, cartonDepth) {
+    let packedCylinders = [];
+    let remainingSpace = cartonWidth * cartonHeight * cartonDepth;
+
+    // Sort cylinders by their volume in descending order
+    cylinders.sort((a, b) => (b.diameter / 2) ** 2 * b.height - (a.diameter / 2) ** 2 * a.height);
+
+    for (const cylinder of cylinders) {
+        while (cylinder.quantity > 0 && remainingSpace > 0) {
+            let packedCylinder = { diameter: cylinder.diameter, height: cylinder.height };
+
+            // Find the orientation (x, y, z axis) with maximum utilization of space
+            const orientations = [
+                { x: cylinder.diameter, y: cylinder.height, z: cylinder.diameter },
+                { x: cylinder.height, y: cylinder.diameter, z: cylinder.diameter },
+                { x: cylinder.diameter, y: cylinder.diameter, z: cylinder.height }
+            ];
+
+            let maxVolume = 0;
+            let bestOrientation = null;
+
+            for (const orientation of orientations) {
+                const volume = orientation.x * orientation.y * orientation.z;
+                if (volume <= remainingSpace && volume > maxVolume) {
+                    maxVolume = volume;
+                    bestOrientation = orientation;
+                }
+            }
+
+            if (bestOrientation) {
+                packedCylinder.orientation = bestOrientation;
+                remainingSpace -= maxVolume;
+                packedCylinders.push(packedCylinder);
+                cylinder.quantity--;
+            } else {
+                // No orientation found, remaining space is too small
+                break;
+            }
+        }
+    }
+
+    return packedCylinders;
+}
+
+// Example usage
+const cylinders = [
+    { diameter: 5, height: 10, quantity: 20 }, // Cylinder type 1: Diameter = 5, Height = 10, Quantity = 20
+    { diameter: 7, height: 15, quantity: 30 }, // Cylinder type 2: Diameter = 7, Height = 15, Quantity = 30
+    // Add more cylinder types as needed
+];
+const cartonWidth = 20; // Width of the carton box
+const cartonHeight = 20; // Height of the carton box
+const cartonDepth = 20; // Depth of the carton box
+
+const packedCylinders = packCylindersInCarton(cylinders, cartonWidth, cartonHeight, cartonDepth);
+console.log("Packed cylinders:", packedCylinders);

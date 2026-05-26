@@ -1,0 +1,309 @@
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+// import { MatDialog } from '@angular/material/dialog';
+// import { Store } from '@ngrx/store';
+import { BehaviorSubject, Subscription, pipe, timer,of } from 'rxjs';
+import { animate, state, style, transition, trigger } from "@angular/animations";
+import { delay, filter, map, scan, startWith, switchMap, take } from 'rxjs/operators';
+// import { selectedGoodEdgeColor } from 'src/app/globals';
+// import { NoSolutionDialogComponent } from '../../dialog/no-solution-dialog/no-solution-dialog.component';
+// import { selectCurrentSolution, selectSolutions } from 'src/app/store/selectors/i-solution.selectors';
+// import { fadeInAnimation } from 'src/lib/shared/animations/fade-in.animation';
+// import { selectSnapshot } from 'src/lib/process-builder/globals/select-snapshot';
+// import { setCurrentSolution } from 'src/app/store/actions/i-solution.actions';
+import { VisualizationService } from 'src/app/services/visualization.service';
+
+import * as ThreeJS from 'three';
+
+
+// import { ISolution } from 'src/app/interfaces/i-solution.interface';
+import { SceneVisualizationComponent } from '../../scene-visualization/scene-visualization.component';
+import { VisualizerComponentService } from './visualizer-component.service';
+import { IVisualizerContextService, VISUALIZER_CONTEXT } from 'src/app/interfaces/i-visualizer-context.service';
+
+
+
+ const fadeInAnimation = trigger('fadeIn', [
+    state('void', style({
+        opacity: 0
+    })),
+    state('*', style({
+        opacity: 1
+    })),
+    transition('void => *', [
+        animate('.5s ease-out')
+    ])
+]);
+
+@Component({
+  selector: 'app-visualizer',
+  templateUrl: './visualizer.component.html',
+  styleUrls: ['./visualizer.component.scss'],
+  providers: [
+    VisualizationService,
+    { provide: VISUALIZER_CONTEXT, useClass: VisualizerComponentService }
+  ],
+  animations: [fadeInAnimation],
+})
+
+export class VisualizerComponent implements AfterViewInit, OnDestroy, OnInit {
+
+  @ViewChild(SceneVisualizationComponent, { static: false }) private _visualization!: SceneVisualizationComponent;
+
+   
+  // public currentSolution$ = this._store.select(selectCurrentSolution);
+  public currentSolution$ :any= {
+    "id": "c3f7a536-5155-46d2-8584-e33c37f8464a",
+    "description": "Super-Flo",
+    "container": {
+      "id": "8cac52d3-d5cc-45e4-a078-bf9b3cf0542e",
+      "xCoord": 0,
+      "yCoord": 0,
+      "zCoord": 0,
+      "height": 1700,
+      "width": 2100,
+      "length": 3500,
+      "unit": "mm",
+      "goods": [
+        {
+          "id": "b9ce9792-3583-4577-bf52-6a178c76e499",
+          "index": 0,
+          "height": 1700,
+          "width": 500,
+          "length": 0,
+          "rotated": false,
+          "xCoord": 0,
+          "yCoord": 0,
+          "zCoord": 0,
+          "rCoord": 1050,
+          "tCoord": 1000,
+          "fCoord": null,
+          "desc": "Palette 1",
+          "group": "b100811a-76b0-4313-8823-87d4b290f84b",
+          "stackedOnGood": null,
+          "sequenceNr": 1,
+          "stackingAllowed": true,
+          "turningAllowed": true,
+          "turned": false,
+          "orderGuid": "c8d280d2-0ed9-4f75-8dc7-30b3fc6e77c6"
+        },
+        {
+          "id": "b9ce9792-3583-4577-bf52-6a178c76e499",
+          "index": 0,
+          "height": 1700,
+          "width": 500,
+          "length": 0,
+          "rotated": false,
+          "xCoord": 1000,
+          "yCoord": 0,
+          "zCoord": 0,
+          "rCoord": 1050,
+          "tCoord": 1000,
+          "fCoord": null,
+          "desc": "Palette 1",
+          "group": "b100811a-76b0-4313-8823-87d4b290f84b",
+          "stackedOnGood": null,
+          "sequenceNr": 1,
+          "stackingAllowed": true,
+          "turningAllowed": true,
+          "turned": false,
+          "orderGuid": "c8d280d2-0ed9-4f75-8dc7-30b3fc6e77c6"
+        },
+        {
+          "id": "b9ce9792-3583-4577-bf52-6a178c76e499",
+          "index": 0,
+          "height": 1700,
+          "width": 500,
+          "length": 0,
+          "rotated": false,
+          "xCoord": 1000,
+          "yCoord": 0,
+          "zCoord": 1000,
+          "rCoord": 1050,
+          "tCoord": 1000,
+          "fCoord": null,
+          "desc": "Palette 1",
+          "group": "b100811a-76b0-4313-8823-87d4b290f84b",
+          "stackedOnGood": null,
+          "sequenceNr": 1,
+          "stackingAllowed": true,
+          "turningAllowed": true,
+          "turned": false,
+          "orderGuid": "c8d280d2-0ed9-4f75-8dc7-30b3fc6e77c6"
+        },
+        {
+          "id": "b9ce9792-3583-4577-bf52-6a178c76e499",
+          "index": 0,
+          "height": 1000,
+          "width": 500,
+          "length": 0,
+          "rotated": false,
+          "xCoord": 0,
+          "yCoord": 0,
+          "zCoord": 1000,
+          "rCoord": 1050,
+          "tCoord": 1000,
+          "fCoord": null,
+          "desc": "Palette 1",
+          "group": "b100811a-76b0-4313-8823-87d4b290f84b",
+          "stackedOnGood": null,
+          "sequenceNr": 1,
+          "stackingAllowed": true,
+          "turningAllowed": true,
+          "turned": false,
+          "orderGuid": "c8d280d2-0ed9-4f75-8dc7-30b3fc6e77c6"
+        },
+        {
+          "id": "b9ce9792-3583-4577-bf52-6a178c76e499",
+          "index": 0,
+          "height": 700,
+          "width": 500,
+          "length": 0,
+          "rotated": false,
+          "xCoord": 0,
+          "yCoord": 1000,
+          "zCoord": 1000,
+          "rCoord": 1050,
+          "tCoord": 1000,
+          "fCoord": null,
+          "desc": "Palette 1",
+          "group": "b100811a-76b0-4313-8823-87d4b290f84b",
+          "stackedOnGood": null,
+          "sequenceNr": 1,
+          "stackingAllowed": true,
+          "turningAllowed": true,
+          "turned": false,
+          "orderGuid": "c8d280d2-0ed9-4f75-8dc7-30b3fc6e77c6"
+        },
+  
+      
+    ],
+  }
+  };
+  public hasCurrentSolution$ =
+   this.currentSolution$
+  // .pipe(
+  //   map((solution) => !!solution)
+  // );
+
+  public selectedGoodPanelExpanded: boolean = false;
+
+  private _menuVisible = new BehaviorSubject<boolean>(true);
+  private _userToggledMenu = new BehaviorSubject<boolean>(false);
+  public menuVisible$ = this._menuVisible.asObservable();
+  public menuToggling$ = this._menuVisible.pipe(
+    switchMap(
+      () => timer(200)
+        .pipe(
+          map(() => false),
+          startWith(true)
+        )
+    ),
+  );
+
+  private _displayDetails = new BehaviorSubject<boolean>(true);
+  public displayDetails$ = this._displayDetails.asObservable();
+
+  public scene$ :any= {};
+  
+  
+  // this.currentSolution$.pipe(
+  //   scan(
+  //     (scene: ThreeJS.Scene, solution: any | null) => {
+  //       this._visualizationService.configureSolutionScene(solution!, scene, 'rgb(238,238,238)');
+  //       console.log("scene",scene);
+  //       return scene;
+  //     },
+  //     new ThreeJS.Scene()
+  //   )
+  // )
+
+
+  // public scene$ =pipe(
+   
+  //   scan(
+  //     (scene: ThreeJS.Scene, solution: any | null) => {
+  //       this._visualizationService.configureSolutionScene(this.currentSolution$, scene, 'rgb(238,238,238)')
+  //       return scene;
+  //     },
+  //     new ThreeJS.Scene()
+  //   ));
+  
+
+  private _subscriptions = new Subscription();
+
+  constructor(
+    @Inject(VISUALIZER_CONTEXT) public visualizerComponentService: IVisualizerContextService,
+    private _visualizationService: VisualizationService,
+    // private _dialog: MatDialog,
+    private _viewContainerRef: ViewContainerRef,
+  
+  ) { 
+    // this.scene$=
+    // console.log( ((this._visualizationService.configureSolutionScene(this.currentSolution$,  new ThreeJS.Scene() , 'rgb(238,238,238)')).));
+  //  let Json=this._visualizationService.TypeOneJsonFormate(960,760,960,300,320);
+   console.log("JSON formate",JSON.stringify({}))
+    // this._visualizationService.configureSolutionScene(this.currentSolution$,  new ThreeJS.Scene() , 'rgb(238,238,238)').then(res=>{
+      this._visualizationService.configureSolutionScene(1,{},  new ThreeJS.Scene() , 'rgb(238,238,238)').then(res=>{
+      console.log(res)
+      if(res){
+        this.scene$=res.scene;
+      }
+    })
+  }
+
+  public ngAfterViewInit(): void {
+    // this.validateClient();
+  }
+
+  public ngOnDestroy(): void {
+    this._subscriptions.unsubscribe();
+  }
+
+  public ngOnInit(): void {
+    // this._subscriptions.add(this.menuToggling$.pipe(filter(toggling => !toggling), delay(1)).subscribe(() => this._visualization?.updateSize()));
+
+    // this._subscriptions.add(
+    //   this.hasCurrentSolution$
+    //     .pipe(
+    //       filter((hasCurrentSolution) => !hasCurrentSolution),
+    //       switchMap(() => this._store.select(selectSolutions)),
+    //       take(1)
+    //     )
+    //     .subscribe((solutions) => {
+    //       if (solutions.length > 0) {
+    //         this._store.dispatch(setCurrentSolution({ solution: solutions[0] }));
+    //       } else {
+    //         this._showNoSolutionDialog();
+    //       }
+    //     })
+    // );
+
+    // this._subscriptions.add(this.visualizerComponentService.selectedGood$.pipe(filter(good => !!good)).subscribe(() => this.selectedGoodPanelExpanded = true));
+  }
+
+  // private _showNoSolutionDialog() {
+  //   this._dialog.open(NoSolutionDialogComponent, {
+  //     panelClass: 'no-padding-dialog',
+  //     disableClose: true,
+  //     viewContainerRef: this._viewContainerRef,
+  //   });
+  // }
+
+  // public async toggleMenu() {
+  //   const menuVisible = await selectSnapshot(this._menuVisible);
+  //   const userToggledMenu = await selectSnapshot(this._userToggledMenu);
+
+  //   this._menuVisible.next(!menuVisible);
+  //   this._userToggledMenu.next(!userToggledMenu);
+  // }
+
+  // public selectedGoodEdgeColor = selectedGoodEdgeColor;
+
+  // public async validateClient() {
+  //   const userToggledMenu = await selectSnapshot(this._userToggledMenu);
+  //   const wideView = window.innerWidth >= 1000;
+
+  //   this._displayDetails.next(wideView);
+  //   this._menuVisible.next(wideView && !userToggledMenu);
+  // }
+}

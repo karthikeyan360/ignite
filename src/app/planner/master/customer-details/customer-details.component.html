@@ -1,0 +1,151 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Customer Master</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Name" class="required"> Customer Category</label>
+               
+                    
+<p-dropdown [options]="categoryLists"  [autoDisplayFirst]="false"  [(ngModel)]="data.category" optionLabel="name"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Short" > Short Name</label>
+                    <input pInputText id="Short" type="text" [(ngModel)]="data.shortName" />
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Name" class="required"> Name</label>
+                    <input pInputText id="Name" type="text" [(ngModel)]="data.customerName" />
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Mobile Number</label>
+                    <input pInputText id="Desc" type="text" [(ngModel)]="data.mobile" />
+                </div>
+               
+              
+             
+
+            </div>
+
+            <div class="grid">
+                <p-fieldset legend="Address for Communication" [toggleable]="true">
+                    <div class="col-12">
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="address1">Address 1</label>
+                            <input pInputText id="address1" type="text" [(ngModel)]="data.address1" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="address2">Address 2</label>
+                            <input pInputText id="address2" type="text" [(ngModel)]="data.address2" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="Desc">Address 3</label>
+                            <input pInputText id="Desc" type="text" [(ngModel)]="data.address3" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="address4">Address 4</label>
+                            <input pInputText id="address4" type="text" [(ngModel)]="data.address4" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="country">Country</label>
+                            
+<p-autoComplete [(ngModel)]="data.country" [suggestions]="countryLists"field="name"  (completeMethod)="searchCountry($event)"></p-autoComplete>
+                
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="email">Zip Code</label>
+                            <input pInputText id="email" type="text" [(ngModel)]="data.zibCode" />
+                        </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="zipcode">E-mail</label>
+                        <input pInputText id="zipcode" type="text" [(ngModel)]="data.email" />
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlFor="gstin">GSTIN</label>
+                        <input pInputText id="gstin" type="text" [(ngModel)]="data.gstin" />
+                    </div>
+                </div>
+                    </div>
+                </p-fieldset>
+                </div>
+                <div class="field col-12 md:col-12">
+                    <div class="flex flex-wrap gap-2 f-r">
+
+                        <p-button [label]="buttonName" (click)="save()" icon="pi pi-bookmark" iconPos="right"
+                            [loading]="loading[1]" styleClass="p-button-success"></p-button>
+                        <p-button label="Clear" (click)="Load()" icon="pi pi-times" [loading]="loading[0]"
+                            styleClass="p-button-danger"></p-button>
+                    </div>
+                </div>
+
+        
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <p-table [value]="lists" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>
+                            Sno
+
+                        </th>
+                        <th>Customer Code </th>
+                        <th>Name </th>
+                        <th>Mobile Number</th>
+                        <th>E-mail</th>
+                        <!-- <th>GSTIN</th>
+                        <th>Address</th> -->
+                        <th>Status</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-index="rowIndex" let-columns="columns">
+                    <tr>
+                        <td> {{index+1}} </td>
+                        <td>
+                            {{product.CustomerCode}}
+                        </td>
+                        <td>
+                            {{product.Customername}}
+                        </td>
+                        <td>
+                            {{product.Mobile}}
+                        </td>
+                        <td>
+                            {{product.Email}}
+                        </td>
+                        <!-- <td>
+                            {{product.GSTIN}}
+                        </td>
+                        <td>
+                            {{product.Dimension}}
+                        </td> -->
+                        <td >
+                         <span *ngIf ='product.Status' style="color: green;">Active</span>   
+                         <span *ngIf ='!product.Status' style="color: red;">In-Active</span>
+                            
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-file-edit" [loading]="loading[2]" (click)="ViewProduct(product)"
+                                styleClass="p-button-success"></p-button>
+                        </td>
+                        <td> <p-button icon="pi pi-times" [loading]="loading[3]" (click)="DeleteProduct(product)"
+                                styleClass="p-button-danger"></p-button></td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="7">No Record(s) found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</div>

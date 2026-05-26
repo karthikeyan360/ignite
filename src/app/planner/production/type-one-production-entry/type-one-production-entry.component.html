@@ -1,0 +1,205 @@
+<div class="card">
+<div class="grid">
+    <div class="col-12">
+   
+            <div class="p-fluid p-formgrid grid">
+                <div class=" col-12 md:col-3">
+                    <label htmlFor="Name" class="required">Customer Name</label>
+                    <p-autoComplete [(ngModel)]="data.customername" field="name" emptyMessage="No Record(s) Found.."
+                        [suggestions]="customerLists" (completeMethod)="search($event)"></p-autoComplete>
+                </div>
+                <div class=" col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Product </label>
+                    <p-dropdown [options]="ModelLists" [autoDisplayFirst]="false" optionLabel="name" [filter]="true"
+                        filterBy="name" [showClear]="true" (onChange)="ClearImage();ConvetUOM();"
+                        [(ngModel)]="data.model"></p-dropdown>
+                </div>
+                <!-- <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc">Number Of Boxs</label>
+                    <input pInputText id="Desc" type="text" (blur)="Load3DImage()"   [(ngModel)]="data.noofBox" />
+                </div> -->
+                <div class=" col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">UOM</label>
+                    <p-dropdown [options]="UomLists" [(ngModel)]="data.uom" [autoDisplayFirst]="false"
+                        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                        (onChange)="ClearImage();ConvetUOM();"></p-dropdown>
+                </div>
+                <div class=" col-12 md:col-3">
+                    <label htmlFor="Shape" class="required">Shape</label>
+                    <p-dropdown [options]="ShapeLists" [(ngModel)]="data.shape" [autoDisplayFirst]="false"
+                        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+                        (onChange)="ClearImage()"></p-dropdown>
+                </div>
+
+                <div class=" col-12 md:col-3" *ngIf="data?.shape?.value == 1">
+                    <label htmlFor="Desc" class="required">cyliender Dia</label>
+                    <input pInputText id="Desc" type="text" (blur)="ClearImage()" [(ngModel)]="data.cylienderdia" />
+                </div>
+                <div class=" col-12 md:col-3" *ngIf="data?.shape?.value == 1">
+                    <label htmlFor="Desc" class="required">cyliender Height </label>
+                    <input pInputText id="Desc" type="text" (blur)="ClearImage()" [(ngModel)]="data.cylienderheight" />
+                </div>
+
+                <div class=" col-12 md:col-3" *ngIf="data?.shape?.value != 1 && data?.shape?.value != 3">
+                    <label htmlFor="Desc" class="required">Length</label>
+                    <input pInputText id="Desc" type="text" (blur)="ClearImage()" [(ngModel)]="data.length" />
+                </div>
+                <div class=" col-12 md:col-3" *ngIf="data?.shape?.value != 1">
+                    <label htmlFor="Desc" class="required"> Width </label>
+                    <input pInputText id="Desc" type="text" (blur)="onChangeWidth();ClearImage()"
+                        [(ngModel)]="data.width" />
+                </div>
+                <div class=" col-12 md:col-3" *ngIf="data?.shape?.value != 1">
+                    <label htmlFor="Desc" class="required"> Height </label>
+                    <input pInputText id="Desc" type="text" (blur)="ClearImage()" [(ngModel)]="data.heigth" />
+                </div>
+
+
+                <!-- <div class=" col-12 md:col-3">
+                    <label htmlFor="Desc">Address </label>
+
+                    <textarea rows="2" cols="20" pInputTextarea [(ngModel)]="data.address"></textarea>
+                </div> -->
+
+
+
+                <div class=" col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Shape Colour </label>
+
+                    <p-colorPicker (onChange)="ClearImage()" [(ngModel)]="data.shapeColour"></p-colorPicker>
+                </div>
+                <div class=" col-12 md:col-9">
+                    <div class="flex flex-wrap gap-2 f-r">
+                        <p-button label="Generate" (click)="Load3DImage()" icon="pi pi-bookmark" iconPos="right"
+                        [loading]="loading[1]" styleClass="p-button-success"></p-button>
+
+                    <p-button label="Save" (click)="save()" icon="pi pi-bookmark" iconPos="right"
+                        [loading]="loading[1]" styleClass="p-button-success"></p-button>
+                    <p-button label="Clear" (click)="Load()" icon="pi pi-times" [loading]="loading[0]"
+                        styleClass="p-button-danger"></p-button>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="grid" *ngIf="!showLoad">
+
+    <div class="field col-12 md:col-12">
+        <div class="flex flex-wrap gap-2 f-r">
+            <p-button icon="pi pi-external-link" pTooltip="Full Screen" tooltipPosition="left"
+                (click)="openFullscreen()" styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
+        </div>
+        <div class="col-12" #fullScreen>
+            <div class="card">
+
+
+                <div class="p-fluid p-formgrid grid">
+                    <div class=" col-12 md:col-3">
+                        <p-panel header="Box Details">
+
+                            <div class=" field-span col-12 md:col-12">
+                                <label htmlFor="Address"><b>Box Length</b> </label>
+                                <span>:</span>
+                                <span>{{data.model?.ConvertLength}}</span>
+
+                            </div>
+                            <div class=" field-span col-12 md:col-12">
+                                <label htmlFor="Address"><b>Box Width</b> </label>
+                                <span>:</span>
+                                <span>{{data.model?.ConvertWidth}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span md:col-12">
+                                <label htmlFor="Address"><b>Box Height</b> </label>
+                                <span>:</span>
+                                <span>{{data.model?.ConvertHeight}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span  md:col-12" *ngIf="data?.shape?.value == 1">
+                                <label htmlFor="Address"><b>Cyliender Height</b> </label>
+                                <span>:</span>
+                                <span>{{data?.cylienderheight}}</span>
+
+                            </div>
+                            <div class=" field-span col-12 md:col-12" *ngIf="data?.shape?.value == 1">
+                                <label htmlFor="Address"><b>Cyliender Dia</b> </label>
+                                <span>:</span>
+                                <span>{{data?.cylienderdia}}</span>
+
+                            </div>
+
+                            <div class=" col-12 field-span  md:col-12"
+                                *ngIf="data?.shape?.value != 1 && data?.shape?.value != 3">
+                                <label htmlFor="Address"><b>{{data?.shape?.name}} Length</b> </label>
+                                <span>:</span>
+                                <span>{{data?.length}}</span>
+
+                            </div>
+
+                            <div class=" col-12 field-span  md:col-12" *ngIf="data?.shape?.value != 1">
+                                <label htmlFor="Address"><b>{{data?.shape?.name}} Width</b> </label>
+                                <span>:</span>
+                                <span>{{data?.width}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span  md:col-12" *ngIf="data?.shape?.value != 1">
+                                <label htmlFor="Address"><b>{{data?.shape?.name}} Height</b> </label>
+                                <span>:</span>
+                                <span>{{data?.heigth}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span  md:col-12">
+                                <label htmlFor="Address"><b>Allocate Length</b> </label>
+                                <span>:</span>
+                                <span>{{data.totalLengthCyliender}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span  md:col-12">
+                                <label htmlFor="Address"><b>Allocate Width</b> </label>
+                                <span>:</span>
+                                <span>{{data.totalWidthCyliender}}</span>
+
+                            </div>
+                            <div class=" col-12 field-span  md:col-12">
+                                <label htmlFor="Address"><b>Allocate Height</b> </label>
+                                <span>:</span>
+                                <span>{{data.totalHeigthCyliender}}</span>
+
+                            </div>
+
+                            <div class=" col-12 field-span  md:col-12" *ngIf="data?.shape?.value != 1">
+                                <label htmlFor="Address"><b>Total Loaded Qty</b> </label>
+                                <span>:</span>
+                                <span>{{totalpcsperbox}} Ns</span>
+
+                            </div>
+                            <div class=" col-12 field-span md:col-12" *ngIf="data?.shape?.value == 1">
+                                <label htmlFor="Address"><b>Total Loaded Qty</b> </label>
+                                <span>:</span>
+                                <span>{{data?.totalcylienderpcsperbox}} Ns</span>
+
+                            </div>
+
+                        </p-panel>
+                    </div>
+                    <div class=" col-12 md:col-9" *ngIf="scene$">
+
+                        <app-scene-visualization @fadeIn class="scene-visualization" [scene]="scene$">
+                        </app-scene-visualization>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="showLoad">
+    <p-progressSpinner></p-progressSpinner>
+</div>

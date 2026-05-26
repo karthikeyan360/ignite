@@ -1,0 +1,137 @@
+<!-- tracking.component.html -->
+
+<div class="sheet">
+
+    <div class="header">
+        <h3>THANK YOU GOD - 4 / 4 TRACKING</h3>
+        <h4>MONTH 0 / WEEK - {{ Week?.weekNumber }}</h4>
+        <h4> {{ Week?.weekStart | date }} - {{ Week?.weekEnd | date }}</h4>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <p-table #dt [value]="rows"    selectionMode="multiple" [scrollable]="true" scrollHeight="500px"
+                styleClass="p-datatable-sm p-datatable-gridlines tracking-table">
+                <ng-template pTemplate="caption">
+                    <div style="text-align: left">
+                        <p-button icon="pi pi-external-link" label="Export" (onClick)="dt.exportCSV()" />
+                    </div>
+                </ng-template>
+                <!-- Header Row 1 -->
+                <ng-template pTemplate="header">
+
+                    <tr>
+                        <th rowspan="2" style="width:60px" pFrozenColumn>S.NO</th>
+                        <th rowspan="2" style="width:280px" pFrozenColumn>IR NAME</th>
+
+                        <th colspan="5">SATURDAY</th>
+                        <th colspan="5">SUNDAY</th>
+                        <th colspan="5">MONDAY</th>
+                        <th colspan="5">TUESDAY</th>
+                        <th colspan="5">WEDNESDAY</th>
+                        <th colspan="5">THURSDAY</th>
+                        <th colspan="5">FRIDAY</th>
+
+                        <th colspan="2">TOTAL - 4/4</th>
+                        <th>TOTAL / R2</th>
+                    </tr>
+
+                    <!-- Header Row 2 -->
+                    <tr>
+
+                        <!-- Saturday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Sunday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Monday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Tuesday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Wednesday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Thursday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <!-- Friday -->
+                        <th *ngFor="let item of subHeaders" [style.width.px]="50" [style.minWidth.px]="50">
+                            {{ item }}
+                        </th>
+
+                        <th style="width:80px">INFO/PL</th>
+                        <th style="width:80px">RULE 2</th>
+                        <th style="width:80px">R2</th>
+
+                    </tr>
+
+
+                </ng-template>
+
+                <!-- Body -->
+                <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
+
+                    <tr>
+
+                        <td pFrozenColumn>{{ rowIndex + 1 }}</td>
+
+                        <td style="width:280px" pFrozenColumn>
+                            {{row.irName}}
+                            <!-- <input pInputText [(ngModel)]="row.irName" class="table-input" /> -->
+                        </td>
+
+                        <!-- 35 cells -->
+                        <td *ngFor="let col of columns">
+                            {{row[col]}}
+                            <!-- <input pInputText [(ngModel)]="row[col]" class="table-input small-input" /> -->
+                        </td>
+
+                        <!-- Totals -->
+                        <td>
+                            <!-- <input pInputText [(ngModel)]="row.infoPL" class="table-input small-input" /> -->
+                        </td>
+
+                        <td>
+                            <!-- <input pInputText [(ngModel)]="row.rule2" class="table-input small-input" /> -->
+                        </td>
+
+                        <td>
+                            <!-- <input pInputText [(ngModel)]="row.r2" class="table-input small-input" /> -->
+                        </td>
+
+                    </tr>
+
+                </ng-template>
+
+                <!-- Footer -->
+                <ng-template pTemplate="footer">
+
+                    <tr>
+                        <td colspan="2" class="footer-cell" pFrozenColumn>
+                            TOTAL -
+                        </td>
+
+                        <td *ngFor="let item of footerColumns" pFrozenColumn></td>
+                    </tr>
+
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+
+</div>

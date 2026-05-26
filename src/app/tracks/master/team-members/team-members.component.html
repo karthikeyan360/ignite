@@ -1,0 +1,89 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h5>Team Members</h5>
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Team Name </label>
+                    <p-dropdown [options]="TeamlLists" [autoDisplayFirst]="false" optionLabel="name" [filter]="true"
+                        filterBy="name" [showClear]="true" [(ngModel)]="team"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Name" class="required"> Name</label>
+                    <input pInputText id="Name" type="text" [(ngModel)]="name" />
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="baNo" class="required"> BA No</label>
+                    <input pInputText id="baNo" type="text" [(ngModel)]="baNo" />
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc">Desc</label>
+                    <input pInputText id="Desc" type="text" [(ngModel)]="desc" />
+                </div>
+                <div class="field col-12 md:col-8">
+                    <div class="flex flex-wrap gap-2 f-r">
+
+                        <p-button [label]="buttonName" (click)="save()" icon="pi pi-bookmark" iconPos="right"
+                            [loading]="loading[1]" styleClass="p-button-success"></p-button>
+                        <p-button label="Clear" (click)="Load()" icon="pi pi-times" [loading]="loading[0]"
+                            styleClass="p-button-danger"></p-button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <p-table [value]="teamMembersList" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>
+                            Sno
+
+                        </th>
+                        <th>Name </th>
+
+                        <th>BA No</th>
+                        <th>Team Name</th>
+                        <th>Desc</th>
+                        <th>Action</th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-index="rowIndex" let-columns="columns">
+                    <tr>
+                        <td> {{index+1}} </td>
+                        <td>
+                            {{product.name}}
+                        </td>
+                        <td>
+                            {{product.baNo}}
+                        </td>
+                        <td>
+                            {{product.teamName}}
+                        </td>
+                        <td>
+                            {{product.desc}}
+                        </td>
+                        <td>
+                            <span *ngIf='product.active' style="color: green;">Active</span>
+                            <span *ngIf='!product.active' style="color: red;">In-Active</span>
+
+                        </td>
+
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">No Record(s) found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
