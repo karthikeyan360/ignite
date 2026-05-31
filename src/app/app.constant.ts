@@ -50,5 +50,13 @@ export const AppConstant = Object.freeze({
         { name: 'In Progress', id: 2 },
         { name: 'Completed', id: 3 },
         { name: 'Cancelled', id: 4 }
+    ],
+    closingStatusLists: [
+        { name: 'Grip', id: 1 },
+        { name: 'Possiable', id: 2},
+        { name: 'Follow', id: 3 },
+        { name: 'Completed', id: 4 },
+        { name: 'KIV', id: 5 },
+        { name: 'Not Interested', id: 6 },
     ]
 })

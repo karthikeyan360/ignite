@@ -140,6 +140,8 @@ export class PlanDetailsComponent {
         week: this.Week,
         weekNumber: this.Week.split('-')[1].trim(),
         planStatus: this.planStatus.id,
+        closeingStatus: 0,
+        closeingUpdates :  [],
         createdAt: new Date(),
         createdUser: JSON.parse(localStorage.getItem('User') || '{}').uid,
       };

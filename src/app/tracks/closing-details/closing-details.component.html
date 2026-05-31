@@ -1,1 +1,94 @@
-<p>closing-details works!</p>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <!-- <h5>Plan</h5> -->
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Plan Given </label>
+                    <p-dropdown [options]="teamMembersList" [autoDisplayFirst]="false" optionLabel="name"
+                        [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="planGiven"></p-dropdown>
+                </div>
+               
+                
+              
+
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="Desc" class="required">Status </label>
+                    <p-dropdown [options]="closingStatusLists" [autoDisplayFirst]="false" optionLabel="name"
+                        [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="closeingStatus"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <div class="flex flex-wrap gap-2 f-r">
+
+                        
+                        <p-button label="Clear" (click)="Load()" icon="pi pi-times" [loading]="loading[0]"
+                            styleClass="p-button-danger"></p-button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="col-12">
+        <div class="card">
+            <p-table [value]="planlists" [tableStyle]="{'min-width': '50rem'}" styleClass="p-datatable-sm">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>
+                            Sno
+
+                        </th>
+                        <th>Plan Given </th>
+
+                        <th>Plan Taken </th>
+                        <th>Prospect Name </th>
+                        <th>Date</th>
+                        <th>Week</th>
+                        <th>Status </th>
+                        <th>Action </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-index="rowIndex" let-columns="columns">
+                    <tr>
+                        <td> {{index+1}} </td>
+                        <td>
+                            {{product.plamGivenName}}
+                        </td>
+                        <td>
+                            {{product.planTakenName}}
+                        </td>
+                        <td>
+                            {{product.prospectName}}
+                        </td>
+                        <td>
+                            {{product.dateTime | date:'dd/MM/yyyy hh:mm a'}}
+                        </td>
+                        <td>
+                            {{product.week}}
+                        </td>
+                        <td>
+                            {{product.planStatusName}}
+                        </td>
+                        <td>
+                            <!-- <p-button icon="pi pi-file-edit" [loading]="loading[2]" (click)="ViewProduct(product)"
+                                styleClass="p-button-success"></p-button> -->
+                        </td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">No Record(s) found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+
+</div>

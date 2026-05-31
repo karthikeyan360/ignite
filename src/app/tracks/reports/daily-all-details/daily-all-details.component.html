@@ -1,6 +1,6 @@
 <!-- tracking.component.html -->
 
-<div class="sheet">
+<div class="sheet" id="content">
 
     <div class="header">
         <h3>THANK YOU GOD - 4 / 4 TRACKING</h3>
@@ -8,12 +8,12 @@
         <h4> {{ Week?.weekStart | date }} - {{ Week?.weekEnd | date }}</h4>
     </div>
     <div class="col-12">
-        <div class="card">
+        <div class="card" #pdfContent>
             <p-table #dt [value]="rows"    selectionMode="multiple" [scrollable]="true" scrollHeight="500px"
                 styleClass="p-datatable-sm p-datatable-gridlines tracking-table">
                 <ng-template pTemplate="caption">
                     <div style="text-align: left">
-                        <p-button icon="pi pi-external-link" label="Export" (onClick)="dt.exportCSV()" />
+                        <p-button icon="pi pi-external-link" label="Export" (onClick)="exportPDF()" />
                     </div>
                 </ng-template>
                 <!-- Header Row 1 -->

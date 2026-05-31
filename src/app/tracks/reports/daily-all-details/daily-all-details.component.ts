@@ -6,6 +6,9 @@ import { UtilService } from 'src/app/shared/util.service';
 import { TracksService } from '../../tracks.service';
 import * as _ from 'lodash';
 
+import * as jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-daily-all-details',
   templateUrl: './daily-all-details.component.html',
@@ -94,6 +97,19 @@ export class DailyAllDetailsComponent {
 
   }
 
+  exportPDF() {
+    const data = document.getElementById('content');
+    html2canvas(data!).then(canvas => {
+      const imgWidth = 208;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF.jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('exported-file.pdf'); // Save the generated PDF
+    });
+  }
+
   private loadReport() {
 
 
@@ -140,6 +156,12 @@ export class DailyAllDetailsComponent {
 
   private loadInfoTrack(teamMembersIds: any[]) {
     try {
+      this.columns = []; // Clear existing columns before generating new ones
+      this.days.forEach(day => {
+        this.subHeaders.forEach(sub => {
+          this.columns.push(`${day}_${sub}`);
+        });
+      });
       this.tracksService
         .getInfoTracksByDate(
           teamMembersIds,
@@ -165,12 +187,11 @@ export class DailyAllDetailsComponent {
               r2: ''
             };
 
-            console.log(`Processing teamMemberId: ${keyIds}, Found Tracks:`, findMemebers);
 
             if (findMemebers && findMemebers.length > 0) {
               this.days.forEach(day => {
                 this.subHeaders.forEach(sub => {
-                  this.columns.push(`${day}_${sub}`);
+
                   _.forEach(findMemebers, (track: any) => {
                     let trackDate = track.date.toDate(); // Convert Firestore Timestamp to JavaScript Date
                     let trackDay = trackDate.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
@@ -189,11 +210,11 @@ export class DailyAllDetailsComponent {
                         row[`${day}_${sub}`] = _.add(_.isNull(track.bResponse) ? 0 : parseInt(track.bResponse), _.isNull(track.cResponse) ? 0 : parseInt(track.cResponse)) || '';
                       } else if (sub === 'T/In') {
                         row[`${day}_${sub}`] = (_.add((_.add(_.isNull(track.aResponse) ? 0 : parseInt(track.aResponse), _.isNull(track.bResponse) ? 0 : parseInt(track.bResponse))),
-                         _.isNull(track.cResponse) ? 0 : parseInt(track.cResponse))) || '';
+                          _.isNull(track.cResponse) ? 0 : parseInt(track.cResponse))) || '';
                       }
                       // Here you can assign the track data to the corresponding cell in your table
                       // For example, you might want to create a mapping of teamMemberId + day + subHeader to the track data
-                    } 
+                    }
                     // else {
                     //   row[`${day}_${sub}`] = '';
                     //   console.log(`No match for teamMemberId: ${keyIds}, Day: ${day}, SubHeader: ${sub}. Track Day: ${trackDay}, Track SubHeader: ${trackSubHeader}`);
@@ -205,10 +226,13 @@ export class DailyAllDetailsComponent {
               // If no tracks found for this team member, initialize all cells to empty
               this.days.forEach(day => {
                 this.subHeaders.forEach(sub => {
-                   this.columns.push(`${day}_${sub}`);
+
+
                   row[`${day}_${sub}`] = '';
                 });
               });
+
+              console.log('this.columns', this.columns);
             }
             this.rows.push(row);
 
