@@ -11,19 +11,33 @@ export class AppMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-              { label: 'Team Members', icon: 'pi pi-fw pi-home', routerLink: ['/master/teamMembers'] },
-            // {
-            //     label: 'Master',
-            //     items: [
-            //         { label: 'Team Members', icon: 'pi pi-fw pi-home', routerLink: ['/master/teamMembers'] }
-            //     ]
-            // },
-            { label: 'Plan Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/plan'] },
-            { label: 'Closing Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/closing'] },
-            { label: 'Info Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/info'] },
-            { label: 'Reports', icon: 'pi pi-fw pi-file', routerLink: ['/reports/daily-all-details'] }
-            
+
+            {
+                label: 'Master',
+                items: [
+                    { label: 'Team Members', icon: 'pi pi-fw pi-home', routerLink: ['/master/teamMembers'] },
+                ]
+            },
+
+            {
+                label: 'Tracks',
+                items: [
+                    { label: 'Info Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/info'] },
+                    { label: 'Plan Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/plan'] },
+
+
+                    { label: 'Closing Tracks', icon: 'pi pi-fw pi-map-marker', routerLink: ['/tracks/closing'] },
+                ]
+            },
+            {
+                label: 'Reports',
+                items: [
+                    { label: 'Reports', icon: 'pi pi-fw pi-file', routerLink: ['/reports/daily-all-details'] }
+                ]
+            },
+
+
+
         ];
     }
 }
- 

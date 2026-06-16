@@ -8,9 +8,9 @@
                     <p-dropdown [options]="teamMembersList" [autoDisplayFirst]="false" optionLabel="name"
                         [filter]="true" filterBy="name" [showClear]="true" [(ngModel)]="planGiven"></p-dropdown>
                 </div>
-               
-                
-              
+
+
+
 
                 <div class="field col-12 md:col-3">
                     <label htmlFor="Desc" class="required">Status </label>
@@ -20,7 +20,7 @@
                 <div class="field col-12 md:col-4">
                     <div class="flex flex-wrap gap-2 f-r">
 
-                        
+
                         <p-button label="Clear" (click)="Load()" icon="pi pi-times" [loading]="loading[0]"
                             styleClass="p-button-danger"></p-button>
                     </div>
@@ -72,11 +72,11 @@
                             {{product.week}}
                         </td>
                         <td>
-                            {{product.planStatusName}}
+                            {{product.closingStatusName}}
                         </td>
                         <td>
-                            <!-- <p-button icon="pi pi-file-edit" [loading]="loading[2]" (click)="ViewProduct(product)"
-                                styleClass="p-button-success"></p-button> -->
+                            <p-button icon="pi pi-file-edit" [loading]="loading[2]" (click)="showDialog(product)"
+                                styleClass="p-button-success"></p-button>
                         </td>
 
                     </tr>
@@ -91,4 +91,89 @@
     </div>
 
 
+</div>
+
+<div class="card flex justify-center">
+    <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '80rem' , height: '70vh' }"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+        <ng-template pTemplate="header">
+            <div class="inline-flex items-center justify-center gap-2">
+                <span class="font-bold white-space-nowrap">{{viewdata.plamGivenName}} - {{viewdata.prospectName}}</span>
+
+            </div>
+        </ng-template>
+
+        <div class="card">
+            <!-- <h5>Plan</h5> -->
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="Desc" class="required">Amount </label>
+
+                    <input pInputText id="Desc" type="text" mode="currency" inputId="currency-india" currency="INR"
+                        currencyDisplay="code" locale="en-IN" [(ngModel)]="viewdata.amount" />
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="Desc" class="required">UV </label>
+                    <input pInputText id="Desc" type="text" [(ngModel)]="viewdata.uv" />
+                </div>
+
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="Desc" class="required">Status </label>
+                    <p-dropdown [options]="closingStatusLists" [autoDisplayFirst]="false" optionLabel="name"
+                        [filter]="false" filterBy="name" [showClear]="true"
+                        [(ngModel)]="viewdata.closeingviewStatus"></p-dropdown>
+                </div>
+
+               
+
+                <div class="field col-12 md:col-9">
+
+                    <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="viewdata.closeingcurrentstatus">
+                    </textarea>
+                </div>
+                 <div class="field col-12 md:col-3">
+                    <p-button label="Update" (click)="update()" icon="pi pi-bookmark" iconPos="right"
+                        [loading]="loading[2]" styleClass="p-button-success"></p-button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <p-table [value]="viewdata.closeingUpdates" [tableStyle]="{'min-width': '50rem'}"
+                styleClass="p-datatable-sm">
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th>
+                            Sno
+
+                        </th>
+                        <th>Date </th>
+
+                        <th>Update </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product let-index="rowIndex" let-columns="columns">
+                    <tr>
+                        <td> {{index+1}} </td>
+                        <td>
+
+                            {{ formatFirebaseDate(product.dateTime) ? (formatFirebaseDate(product.dateTime) | date:'dd/MM/yyyy hh:mm a') : '-' }}
+                        </td> 
+                        <td>
+                            {{product.status}}
+                        </td>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="3">No Record(s) found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+    </p-dialog>
 </div>

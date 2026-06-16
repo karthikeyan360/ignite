@@ -142,6 +142,8 @@ export class PlanDetailsComponent {
         planStatus: this.planStatus.id,
         closeingStatus: 0,
         closeingUpdates :  [],
+        amount: null,
+        uv:null,
         createdAt: new Date(),
         createdUser: JSON.parse(localStorage.getItem('User') || '{}').uid,
       };

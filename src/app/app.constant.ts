@@ -58,5 +58,6 @@ export const AppConstant = Object.freeze({
         { name: 'Completed', id: 4 },
         { name: 'KIV', id: 5 },
         { name: 'Not Interested', id: 6 },
+         { name: 'Plan Over', id: 0 },
     ]
 })

@@ -13,6 +13,9 @@ import { TableModule } from "primeng/table";
 import { ClosingDetailsComponent } from './closing-details/closing-details.component';
 import { InfoDetailsComponent } from './info-details/info-details.component';
 import { TracksService } from './tracks.service';
+import { DialogModule } from 'primeng/dialog';
+
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 @NgModule({
@@ -39,7 +42,9 @@ import { TracksService } from './tracks.service';
                 component: InfoDetailsComponent,
             },
         ]),
-        TableModule
+        TableModule,
+        DialogModule,
+        InputNumberModule
     ],
     providers: [UtilService,TracksService],
 })
